@@ -1,9 +1,17 @@
-$("[type=button]").click(function(){
-    buttonPress(this.id);
-})
+
+document.addEventListener("DOMContentLoaded", function() { 
+    $(document).keypress(function(){
+    pickColor() ;})
+  });
 
 
 
+
+var correctAnswer = []
+var userAnswer = []
+var current_level = 1 
+ 
+//Button Animation + Sound
 let buttonPress = function(color){
 
     switch (color){
@@ -50,8 +58,58 @@ let buttonPress = function(color){
 
 
 
-let startGame = function(){
-    let userInput = []
-    let correctInput = []
-    
+//Selects a random color, calls buttonPress On it and push color to correctAnswer array.  
+let pickColor = function(){
+
+        let my_buttons = ["blue","green","yellow","red"]
+        var current = my_buttons[Math.floor(Math.random()*my_buttons.length)];
+        buttonPress(current)
+        correctAnswer.push(current)
+        userSelection()
 }
+    
+
+
+let userSelection = function(){
+    $("[type=button]").click(function(){
+        buttonPress(this.id);
+        userAnswer.push(this.id);
+        // checkAnswer()
+
+    })
+}
+
+let checkAnswer = function(){
+
+
+    if (correctAnswer=== userAnswer){
+        current_level += 1
+        pickColor()
+    }else{
+        $(["body"]).addClass("game-over");
+        setTimeout(function(){
+            $(["body"]).removeClass("game-over")
+            },500)
+            let wrong_audio = new Audio("./sounds/wrong.mp3")
+            wrong_audio.play()
+
+        correctAnswer = []
+        userAnswer = []
+        current_level = 1 
+    }
+}
+
+            
+
+        
+
+        
+
+
+
+
+    
+
+    
+
+
